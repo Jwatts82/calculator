@@ -25,17 +25,34 @@ function addDecimal() {
     }
 }
 
+const calculate = {
+    '/': (firstNubmer, secondNumber) => firstNubmer / secondNumber,
+    '*': (firstNubmer, secondNumber) => firstNubmer * secondNumber,
+    '-': (firstNubmer, secondNumber) => firstNubmer - secondNumber,
+    '+': (firstNubmer, secondNumber) => firstNubmer + secondNumber,
+    '=': (firstNubmer, secondNumber) => secondNumber,
+
+}
+
 function useOperator(operator) {
     const currentValue = Number(calculatorDisplay.textContent)
+    if (operatorValue && awaitingNextValue) {
+        operatorValue = operator 
+        return
+    }
     if (!firstValue) {
         firstValue = currentValue
     } else {
-        console.log('current', currentValue)
+        // console.log(firstValue, operatorValue, currentValue)
+        const calculation = calculate[operatorValue](firstValue, currentValue)
+        calculatorDisplay.textContent = calculation
+        // console.log('calculation', calculation)
+        firstValue = calculation
     }
     awaitingNextValue = true
     operatorValue = operator
-    console.log('firstValue', firstValue)
-    console.log('operator', operatorValue)
+    // console.log('firstValue', firstValue)
+    // console.log('operator', operatorValue)
  
  }
 
@@ -53,7 +70,7 @@ inputBtns.forEach((inputBtn) => {
 function resetAll() {
     firstValue = 0
     operatorValue = ''
-    awaitingnextValue = false
+    awaitingNextValue = false
     calculatorDisplay.textContent = '0'
 }
 
